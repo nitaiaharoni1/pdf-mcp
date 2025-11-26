@@ -37,6 +37,10 @@ export const editTools: MCPToolDefinition[] = [
           type: 'number',
           description: 'Font size (default: 12)',
         },
+        font_path: {
+          type: 'string',
+          description: 'Optional: Absolute path to custom font file (TTF/OTF) for Hebrew/Unicode support. If not provided, uses default font which may not support Hebrew.',
+        },
         color: {
           type: 'string',
           description: 'Text color in hex format (default: #000000)',
@@ -51,6 +55,7 @@ export const editTools: MCPToolDefinition[] = [
       x: number;
       y: number;
       font_size?: number;
+      font_path?: string;
       color?: string;
     }): Promise<MCPResult> => {
       try {
@@ -62,6 +67,7 @@ export const editTools: MCPToolDefinition[] = [
           args.y,
           {
             fontSize: args.font_size,
+            fontPath: args.font_path,
             color: args.color,
           }
         );
@@ -288,6 +294,10 @@ export const editTools: MCPToolDefinition[] = [
           type: 'number',
           description: 'Font size for text watermark (default: 48)',
         },
+        font_path: {
+          type: 'string',
+          description: 'Optional: Absolute path to custom font file (TTF/OTF) for Hebrew/Unicode support in watermark text.',
+        },
         color: {
           type: 'string',
           description: 'Color for text watermark (default: #CCCCCC)',
@@ -302,6 +312,7 @@ export const editTools: MCPToolDefinition[] = [
       opacity?: number;
       rotation?: number;
       font_size?: number;
+      font_path?: string;
       color?: string;
     }): Promise<MCPResult> => {
       try {
@@ -314,6 +325,7 @@ export const editTools: MCPToolDefinition[] = [
           opacity: args.opacity,
           rotation: args.rotation,
           fontSize: args.font_size,
+          fontPath: args.font_path,
           color: args.color,
         });
         return {

@@ -2,14 +2,51 @@
  * PDF Editor - Text editing, annotations, watermarks
  */
 
-import { PDFDocument, PDFPage, rgb, StandardFonts, Color } from 'pdf-lib';
+import { PDFDocument, PDFPage, rgb, StandardFonts, Color, PDFFont } from 'pdf-lib';
 import * as fs from 'fs/promises';
+import fontkit from '@pdf-lib/fontkit';
 import { TextStyle, Annotation, WatermarkOptions } from '../types/pdf';
 import { getPDFManager } from './pdf-manager';
 
 export class PDFEditor {
   /**
-   * Add text to PDF
+   * Register fontkit if not already registered
+   */
+  private registerFontkit(document: PDFDocument): void {
+    try {
+      document.registerFontkit(fontkit);
+    } catch {
+      // Fontkit already registered or registration failed
+      // This is fine, we'll continue
+    }
+  }
+
+  /**
+   * Get or embed a font that supports Hebrew/Unicode
+   */
+  private async getFont(document: PDFDocument, fontPath?: string): Promise<PDFFont> {
+    if (fontPath) {
+      // Register fontkit for custom fonts
+      this.registerFontkit(document);
+      
+      // Embed custom font from file
+      const fontBytes = await fs.readFile(fontPath);
+      return await document.embedFont(fontBytes);
+    }
+    
+    // Try to use a standard font that might support Hebrew
+    // StandardFonts don't support Hebrew, but we'll try Helvetica as fallback
+    // For proper Hebrew support, users should provide a custom font file
+    try {
+      return await document.embedFont(StandardFonts.Helvetica);
+    } catch {
+      // Fallback to TimesRoman if Helvetica fails
+      return await document.embedFont(StandardFonts.TimesRoman);
+    }
+  }
+
+  /**
+   * Add text to PDF with Hebrew/Unicode support
    */
   async addText(
     sessionId: string,
@@ -28,7 +65,9 @@ export class PDFEditor {
     }
 
     const page = pages[pageNumber - 1];
-    const font = await document.embedFont(StandardFonts.Helvetica);
+    
+    // Use custom font if provided, otherwise use default
+    const font = await this.getFont(document, style?.fontPath);
     
     const fontSize = style?.fontSize || 12;
     const [r, g, b] = this.parseColor(style?.color || '#000000');
@@ -104,7 +143,7 @@ export class PDFEditor {
     }
 
     const page = pages[annotation.pageNumber - 1];
-    const font = await document.embedFont(StandardFonts.Helvetica);
+    const font = await this.getFont(document);
     const [r, g, b] = this.parseColor(annotation.color || '#FFFF00');
     const color = rgb(r, g, b);
 
@@ -159,7 +198,7 @@ export class PDFEditor {
       const centerY = height / 2;
 
       if (options.text) {
-        const font = await document.embedFont(StandardFonts.HelveticaBold);
+        const font = await this.getFont(document, options.fontPath);
         const fontSize = options.fontSize || 48;
         const [r, g, b] = this.parseColor(options.color || '#CCCCCC');
         const color = rgb(r, g, b);

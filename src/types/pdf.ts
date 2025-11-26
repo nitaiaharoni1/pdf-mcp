@@ -103,6 +103,7 @@ export interface PDFPermissions {
 export interface TextStyle {
   fontSize?: number;
   fontFamily?: string;
+  fontPath?: string; // Path to custom font file (TTF/OTF) for Hebrew/Unicode support
   color?: string;
   bold?: boolean;
   italic?: boolean;
@@ -126,6 +127,7 @@ export interface WatermarkOptions {
   opacity?: number;
   rotation?: number;
   fontSize?: number;
+  fontPath?: string; // Path to custom font file for Hebrew/Unicode support
   color?: string;
 }
 

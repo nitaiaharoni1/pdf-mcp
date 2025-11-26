@@ -215,6 +215,92 @@ export const formTools: MCPToolDefinition[] = [
     },
   },
   {
+    name: 'create_text_field',
+    description: 'Create a text form field on a PDF page. Useful for adding fillable fields to PDFs that don\'t have them.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        session_id: {
+          type: 'string',
+          description: 'PDF session ID',
+        },
+        page_number: {
+          type: 'number',
+          description: 'Page number (1-based) where to create the field',
+        },
+        field_name: {
+          type: 'string',
+          description: 'Name for the form field',
+        },
+        x: {
+          type: 'number',
+          description: 'X coordinate for the field position',
+        },
+        y: {
+          type: 'number',
+          description: 'Y coordinate for the field position',
+        },
+        width: {
+          type: 'number',
+          description: 'Width of the field',
+        },
+        height: {
+          type: 'number',
+          description: 'Height of the field',
+        },
+        default_value: {
+          type: 'string',
+          description: 'Optional default value for the field',
+        },
+      },
+      required: ['session_id', 'page_number', 'field_name', 'x', 'y', 'width', 'height'],
+    },
+    handler: async (args: {
+      session_id: string;
+      page_number: number;
+      field_name: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      default_value?: string;
+    }): Promise<MCPResult> => {
+      try {
+        await formHandler.createTextField(
+          args.session_id,
+          args.page_number,
+          args.field_name,
+          args.x,
+          args.y,
+          args.width,
+          args.height,
+          args.default_value
+        );
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify({
+                message: 'Text field created successfully',
+                field_name: args.field_name,
+              }, null, 2),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error creating text field: ${(error as Error).message}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  },
+  {
     name: 'flatten_form',
     description: 'Flatten form to make fields non-editable',
     inputSchema: {

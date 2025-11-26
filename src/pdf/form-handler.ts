@@ -179,6 +179,43 @@ export class FormHandler {
   }
 
   /**
+   * Create a text form field
+   */
+  async createTextField(
+    sessionId: string,
+    pageNumber: number,
+    fieldName: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    defaultValue?: string
+  ): Promise<void> {
+    const session = getPDFManager().getSession(sessionId);
+    const document = session.document;
+    const form = document.getForm();
+    const pages = document.getPages();
+    
+    if (pageNumber < 1 || pageNumber > pages.length) {
+      throw new Error(`Invalid page number: ${pageNumber}`);
+    }
+
+    const page = pages[pageNumber - 1];
+    const textField = form.createTextField(fieldName);
+    
+    if (defaultValue) {
+      textField.setText(defaultValue);
+    }
+    
+    textField.addToPage(page, {
+      x,
+      y,
+      width,
+      height,
+    });
+  }
+
+  /**
    * Get field type from PDF field
    */
   private getFieldType(field: any): FormFieldType {

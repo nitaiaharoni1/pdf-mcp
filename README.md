@@ -2,31 +2,33 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/nitaiaharoni1/pdf-mcp?style=social)](https://github.com/nitaiaharoni1/pdf-mcp/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/nitaiaharoni1/pdf-mcp?style=social)](https://github.com/nitaiaharoni1/pdf-mcp/network/members)
-[![npm version](https://img.shields.io/npm/v/pdf-mcp)](https://www.npmjs.com/package/pdf-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/pdf-mcp)](https://www.npmjs.com/package/pdf-mcp)
+[![npm version](https://img.shields.io/npm/v/mcp-pdf)](https://www.npmjs.com/package/mcp-pdf)
+[![npm downloads](https://img.shields.io/npm/dm/mcp-pdf)](https://www.npmjs.com/package/mcp-pdf)
 
 A Model Context Protocol (MCP) server that provides AI assistants with comprehensive PDF manipulation capabilities. This server enables natural language interactions with PDF documents through powerful editing, form filling, page manipulation, and security tools.
 
 ## 🚀 Quick Install
 
-### NPX (Recommended - No Installation Required)
+### For Claude Desktop Users
+
+**Quick Setup (NPX - No Installation Required):**
+1. Add to Claude Desktop config (see [Installation](#-installation) section below)
+2. Restart Claude Desktop
+3. Start using PDF tools!
+
+**Or Install Globally:**
 ```bash
-# Run directly with npx (no installation needed)
-npx pdf-mcp init
-npx pdf-mcp status
+npm install -g mcp-pdf
+# Then configure Claude Desktop (see Installation section)
 ```
 
-### Global Installation
-```bash
-# Install globally for repeated use
-npm install -g pdf-mcp
-pdf-mcp init
-pdf-mcp status
-```
+### For Cursor IDE Users
 
-Restart Claude Desktop after setup.
+1. Configure Cursor MCP settings (see [Installation](#-installation) section below)
+2. Restart Cursor IDE
+3. PDF tools will be available in chat!
 
-**✨ New:** Use with NPX - no installation required! Just run `npx pdf-mcp` directly.
+**✨ Tip:** Use NPX method - no installation required! The package downloads automatically when needed.
 
 ## ✨ Features
 
@@ -77,32 +79,213 @@ Restart Claude Desktop after setup.
 ## 🛠️ Installation
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- Claude Desktop or any MCP-compatible AI client
+- Node.js (v18 or higher) - [Download Node.js](https://nodejs.org/)
+- Cursor IDE or Claude Desktop installed
 
-### Quick Setup (NPX - Recommended)
+---
 
-1. **Run directly with NPX (no installation needed):**
-   ```bash
-   npx pdf-mcp init
-   ```
+## 📱 Installation for Cursor IDE
 
-2. **Check status:**
-   ```bash
-   npx pdf-mcp status
-   ```
+Cursor IDE supports MCP servers through its configuration. Follow these steps:
 
-3. **Restart Claude Desktop** and you're ready!
-
-### Alternative Installation Methods
-
-**Install globally:**
+### Step 1: Install Node.js
+Ensure Node.js (v18 or higher) is installed:
 ```bash
-npm install -g pdf-mcp
-pdf-mcp init
+node --version  # Should be v18.0.0 or higher
 ```
 
-**Use from source:**
+### Step 2: Configure Cursor IDE
+
+1. **Open Cursor Settings:**
+   - Press `Cmd+,` (macOS) or `Ctrl+,` (Windows/Linux) to open settings
+   - Or go to `Cursor` → `Settings` → `Features` → `Model Context Protocol`
+
+2. **Add MCP Server Configuration:**
+   
+   The configuration file location depends on your OS:
+   - **macOS:** `~/Library/Application Support/Cursor/User/globalStorage/mcp.json`
+   - **Windows:** `%APPDATA%\Cursor\User\globalStorage\mcp.json`
+   - **Linux:** `~/.config/Cursor/User/globalStorage/mcp.json`
+
+3. **Edit the Configuration File:**
+   
+   Create or edit the `mcp.json` file and add:
+   ```json
+   {
+     "mcpServers": {
+       "mcp-pdf": {
+         "command": "npx",
+         "args": ["-y", "mcp-pdf"]
+       }
+     }
+   }
+   ```
+
+   **Alternative (if using global installation):**
+   ```json
+   {
+     "mcpServers": {
+       "mcp-pdf": {
+         "command": "pdf-mcp"
+       }
+     }
+   }
+   ```
+
+4. **Restart Cursor IDE:**
+   - Completely quit Cursor (not just close the window)
+   - Reopen Cursor to apply the changes
+
+5. **Verify Installation:**
+   - Open a chat in Cursor
+   - The PDF tools should now be available in the MCP tools menu
+
+---
+
+## 🖥️ Installation for Claude Desktop
+
+Claude Desktop uses a configuration file to connect to MCP servers.
+
+### Step 1: Install Node.js
+Ensure Node.js (v18 or higher) is installed:
+```bash
+node --version  # Should be v18.0.0 or higher
+```
+
+### Step 2: Install the Package (Optional but Recommended)
+
+**Option A: Use NPX (No Installation Required)**
+```bash
+# No installation needed - npx will download and run automatically
+```
+
+**Option B: Install Globally**
+```bash
+npm install -g mcp-pdf
+```
+
+### Step 3: Configure Claude Desktop
+
+1. **Locate the Configuration File:**
+   
+   The configuration file location depends on your OS:
+   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+   - **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+2. **Create or Edit the Configuration File:**
+   
+   If the file doesn't exist, create it. Then add or update the `mcpServers` section:
+   
+   ```json
+   {
+     "mcpServers": {
+       "mcp-pdf": {
+         "command": "npx",
+         "args": ["-y", "mcp-pdf"]
+       }
+     }
+   }
+   ```
+
+   **If you installed globally, use:**
+   ```json
+   {
+     "mcpServers": {
+       "mcp-pdf": {
+         "command": "pdf-mcp"
+       }
+     }
+   }
+   ```
+
+   **If you have multiple MCP servers, merge them:**
+   ```json
+   {
+     "mcpServers": {
+       "mcp-pdf": {
+         "command": "npx",
+         "args": ["-y", "mcp-pdf"]
+       },
+       "other-server": {
+         "command": "npx",
+         "args": ["-y", "other-package"]
+       }
+     }
+   }
+   ```
+
+3. **Restart Claude Desktop:**
+   - Completely quit Claude Desktop (not just close the window)
+   - Reopen Claude Desktop to apply the changes
+
+4. **Verify Installation:**
+   - Open Claude Desktop
+   - Start a conversation
+   - The PDF tools should be available - try asking: "What PDF tools are available?"
+
+### Quick Setup Script (macOS/Linux)
+
+You can use this command to quickly add the configuration:
+
+```bash
+# For Claude Desktop (macOS)
+mkdir -p ~/Library/Application\ Support/Claude
+cat > ~/Library/Application\ Support/Claude/claude_desktop_config.json << 'EOF'
+{
+  "mcpServers": {
+    "mcp-pdf": {
+      "command": "npx",
+      "args": ["-y", "mcp-pdf"]
+    }
+  }
+}
+EOF
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**1. MCP server not appearing:**
+- Verify Node.js is installed: `node --version`
+- Check the configuration file syntax (must be valid JSON)
+- Ensure you completely restarted the application (quit and reopen)
+- Check application logs for errors
+
+**2. "Command not found" errors:**
+- If using global installation, ensure npm global bin is in your PATH
+- Try using `npx` method instead (no installation required)
+- Verify the package name: `mcp-pdf` (not `pdf-mcp`)
+
+**3. Configuration file not found:**
+- Create the directory if it doesn't exist
+- Ensure you're using the correct path for your OS
+- Check file permissions
+
+**4. Tools not working:**
+- Verify the MCP server is running (check application logs)
+- Ensure you're using absolute paths for PDF files
+- Check that PDF files exist and are readable
+
+### Verify Installation
+
+Test the installation:
+```bash
+# Test CLI (if installed globally)
+pdf-mcp --version
+
+# Test with npx
+npx mcp-pdf --version
+```
+
+---
+
+## 📦 Alternative Installation Methods
+
+**Install from source:**
 ```bash
 git clone https://github.com/nitaiaharoni1/pdf-mcp.git
 cd pdf-mcp

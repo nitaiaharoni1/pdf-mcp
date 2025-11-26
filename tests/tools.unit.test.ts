@@ -1,6 +1,6 @@
 /**
  * Tools Unit Tests
- * Tests for MCP tool registration and handling (without database dependencies)
+ * Tests for MCP tool registration and handling for PDF tools
  */
 
 import { getToolDefinitions } from '../src/tools/index';
@@ -25,29 +25,30 @@ describe('Tools Module', () => {
       });
     });
 
-    test('should include all expected tool categories', () => {
+    test('should include all expected PDF tool categories', () => {
       const tools = getToolDefinitions();
       const toolNames = tools.map((tool) => tool.name);
 
-      // Query tools
-      expect(toolNames).toContain('query_database');
-      expect(toolNames).toContain('explain_query');
+      // Document tools
+      expect(toolNames).toContain('open_pdf');
+      expect(toolNames).toContain('create_pdf');
+      expect(toolNames).toContain('save_pdf');
+      expect(toolNames).toContain('close_pdf');
+      expect(toolNames).toContain('get_pdf_info');
 
-      // Schema tools
-      expect(toolNames).toContain('list_tables');
-      expect(toolNames).toContain('describe_table');
-      expect(toolNames).toContain('list_schemas');
-      expect(toolNames).toContain('list_indexes');
-      expect(toolNames).toContain('get_foreign_keys');
-      expect(toolNames).toContain('list_functions');
+      // Form tools
+      expect(toolNames).toContain('list_form_fields');
+      expect(toolNames).toContain('fill_form_field');
+      expect(toolNames).toContain('get_form_values');
+      expect(toolNames).toContain('flatten_form');
 
-      // Analysis tools
-      expect(toolNames).toContain('get_table_stats');
-      expect(toolNames).toContain('analyze_column');
-      expect(toolNames).toContain('get_database_info');
-
-      // Discovery tools
-      expect(toolNames).toContain('search_tables');
+      // Page tools
+      expect(toolNames).toContain('get_pages');
+      expect(toolNames).toContain('merge_pdfs');
+      expect(toolNames).toContain('split_pdf');
+      expect(toolNames).toContain('rotate_page');
+      expect(toolNames).toContain('delete_pages');
+      expect(toolNames).toContain('extract_pages');
     });
 
     test('should have valid input schemas for all tools', () => {
@@ -91,79 +92,87 @@ describe('Tools Module', () => {
       });
     });
 
-    test('should include database type information in descriptions', () => {
+    test('should include PDF-related information in descriptions', () => {
       const tools = getToolDefinitions();
+      let toolsWithPDFMention = 0;
 
       tools.forEach((tool) => {
-        // Most tools should mention supported databases or PostgreSQL specifically
+        // Most tools should mention PDF or related terms
         const description = tool.description.toLowerCase();
-        const mentionsDatabase =
-          description.includes('postgresql') ||
-          description.includes('mysql') ||
-          description.includes('sqlite') ||
-          description.includes('database') ||
-          description.includes('sql') ||
-          tool.name.includes('postgres'); // PostgreSQL-specific tools
+        const mentionsPDF =
+          description.includes('pdf') ||
+          description.includes('document') ||
+          description.includes('form') ||
+          description.includes('page') ||
+          description.includes('signature') ||
+          description.includes('metadata') ||
+          description.includes('watermark') ||
+          description.includes('annotation') ||
+          description.includes('session') ||
+          description.includes('file');
 
-        expect(mentionsDatabase).toBe(true);
+        if (mentionsPDF) {
+          toolsWithPDFMention++;
+        }
       });
+
+      // At least 90% of tools should mention PDF-related terms
+      const percentage = (toolsWithPDFMention / tools.length) * 100;
+      expect(percentage).toBeGreaterThanOrEqual(90);
     });
   });
 
   describe('Tool Input Schema Validation', () => {
-    test('query_database should have correct schema', () => {
+    test('open_pdf should have correct schema', () => {
       const tools = getToolDefinitions();
-      const queryTool = tools.find((tool) => tool.name === 'query_database');
+      const openTool = tools.find((tool) => tool.name === 'open_pdf');
 
-      expect(queryTool).toBeDefined();
-      expect(queryTool!.inputSchema.required).toContain('query');
-      expect(queryTool!.inputSchema.properties).toHaveProperty('query');
-      expect(queryTool!.inputSchema.properties.query.type).toBe('string');
+      expect(openTool).toBeDefined();
+      expect(openTool!.inputSchema.required).toContain('file_path');
+      expect(openTool!.inputSchema.properties).toHaveProperty('file_path');
+      expect(openTool!.inputSchema.properties.file_path.type).toBe('string');
     });
 
-    test('describe_table should have correct schema', () => {
+    test('create_pdf should have correct schema', () => {
       const tools = getToolDefinitions();
-      const describeTool = tools.find((tool) => tool.name === 'describe_table');
+      const createTool = tools.find((tool) => tool.name === 'create_pdf');
 
-      expect(describeTool).toBeDefined();
-      expect(describeTool!.inputSchema.required).toContain('table_name');
-      expect(describeTool!.inputSchema.properties).toHaveProperty('table_name');
-      expect(describeTool!.inputSchema.properties.table_name.type).toBe(
-        'string',
-      );
+      expect(createTool).toBeDefined();
+      expect(createTool!.inputSchema.properties).toHaveProperty('file_path');
+      expect(createTool!.inputSchema.properties.file_path.type).toBe('string');
     });
 
-    test('analyze_column should have correct schema', () => {
+    test('list_form_fields should have correct schema', () => {
       const tools = getToolDefinitions();
-      const analyzeTool = tools.find((tool) => tool.name === 'analyze_column');
+      const listFieldsTool = tools.find((tool) => tool.name === 'list_form_fields');
 
-      expect(analyzeTool).toBeDefined();
-      expect(analyzeTool!.inputSchema.required).toContain('table_name');
-      expect(analyzeTool!.inputSchema.required).toContain('column_name');
-      expect(analyzeTool!.inputSchema.properties).toHaveProperty('table_name');
-      expect(analyzeTool!.inputSchema.properties).toHaveProperty('column_name');
+      expect(listFieldsTool).toBeDefined();
+      expect(listFieldsTool!.inputSchema.required).toContain('session_id');
+      expect(listFieldsTool!.inputSchema.properties).toHaveProperty('session_id');
+      expect(listFieldsTool!.inputSchema.properties.session_id.type).toBe('string');
     });
 
-    test('search_tables should have correct schema', () => {
+    test('fill_form_field should have correct schema', () => {
       const tools = getToolDefinitions();
-      const searchTool = tools.find((tool) => tool.name === 'search_tables');
+      const fillTool = tools.find((tool) => tool.name === 'fill_form_field');
 
-      expect(searchTool).toBeDefined();
-      expect(searchTool!.inputSchema.required).toContain('search_term');
-      expect(searchTool!.inputSchema.properties).toHaveProperty('search_term');
-      expect(searchTool!.inputSchema.properties).toHaveProperty('limit');
-      expect(searchTool!.inputSchema.properties.limit.type).toBe('number');
+      expect(fillTool).toBeDefined();
+      expect(fillTool!.inputSchema.required).toContain('session_id');
+      expect(fillTool!.inputSchema.required).toContain('field_name');
+      expect(fillTool!.inputSchema.required).toContain('value');
+      expect(fillTool!.inputSchema.properties).toHaveProperty('session_id');
+      expect(fillTool!.inputSchema.properties).toHaveProperty('field_name');
+      expect(fillTool!.inputSchema.properties).toHaveProperty('value');
     });
 
-    test('explain_query should have correct schema', () => {
+    test('get_pages should have correct schema', () => {
       const tools = getToolDefinitions();
-      const explainTool = tools.find((tool) => tool.name === 'explain_query');
+      const getPagesTool = tools.find((tool) => tool.name === 'get_pages');
 
-      expect(explainTool).toBeDefined();
-      expect(explainTool!.inputSchema.required).toContain('query');
-      expect(explainTool!.inputSchema.properties).toHaveProperty('query');
-      expect(explainTool!.inputSchema.properties).toHaveProperty('analyze');
-      expect(explainTool!.inputSchema.properties.analyze.type).toBe('boolean');
+      expect(getPagesTool).toBeDefined();
+      expect(getPagesTool!.inputSchema.required).toContain('session_id');
+      expect(getPagesTool!.inputSchema.properties).toHaveProperty('session_id');
+      expect(getPagesTool!.inputSchema.properties.session_id.type).toBe('string');
     });
   });
 });

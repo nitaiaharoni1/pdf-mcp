@@ -41,15 +41,12 @@ export function getClaudeConfigPath(): string {
 /**
  * Generate Claude Desktop configuration for NPX usage
  */
-export function generateNpxConfig(databaseUrl: string): ClaudeConfig {
+export function generateNpxConfig(): ClaudeConfig {
   return {
     mcpServers: {
-      'database-mcp': {
+      'pdf-mcp': {
         command: 'npx',
-        args: ['database-mcp'],
-        env: {
-          DATABASE_URL: databaseUrl
-        }
+        args: ['pdf-mcp'],
       }
     }
   };
@@ -58,14 +55,11 @@ export function generateNpxConfig(databaseUrl: string): ClaudeConfig {
 /**
  * Generate Claude Desktop configuration for global installation
  */
-export function generateGlobalConfig(databaseUrl: string): ClaudeConfig {
+export function generateGlobalConfig(): ClaudeConfig {
   return {
     mcpServers: {
-      'database-mcp': {
-        command: 'database-mcp',
-        env: {
-          DATABASE_URL: databaseUrl
-        }
+      'pdf-mcp': {
+        command: 'pdf-mcp',
       }
     }
   };
@@ -74,15 +68,12 @@ export function generateGlobalConfig(databaseUrl: string): ClaudeConfig {
 /**
  * Generate Claude Desktop configuration for local development
  */
-export function generateLocalConfig(databaseUrl: string, projectPath: string): ClaudeConfig {
+export function generateLocalConfig(projectPath: string): ClaudeConfig {
   return {
     mcpServers: {
-      'database-mcp': {
+      'pdf-mcp': {
         command: 'node',
         args: [path.join(projectPath, 'dist', 'server.js')],
-        env: {
-          DATABASE_URL: databaseUrl
-        }
       }
     }
   };
@@ -130,9 +121,9 @@ export function writeClaudeConfig(config: ClaudeConfig): boolean {
 }
 
 /**
- * Merge database-mcp configuration into existing Claude config
+ * Merge pdf-mcp configuration into existing Claude config
  */
-export function mergeClaudeConfig(databaseUrl: string, useNpx: boolean = true): boolean {
+export function mergeClaudeConfig(useNpx: boolean = true): boolean {
   try {
     let existingConfig = readClaudeConfig();
     
@@ -146,11 +137,11 @@ export function mergeClaudeConfig(databaseUrl: string, useNpx: boolean = true): 
     
     // Generate the appropriate configuration
     const newConfig = useNpx 
-      ? generateNpxConfig(databaseUrl)
-      : generateGlobalConfig(databaseUrl);
+      ? generateNpxConfig()
+      : generateGlobalConfig();
     
-    // Merge database-mcp server configuration
-    existingConfig.mcpServers['database-mcp'] = newConfig.mcpServers['database-mcp'];
+    // Merge pdf-mcp server configuration
+    existingConfig.mcpServers['pdf-mcp'] = newConfig.mcpServers['pdf-mcp'];
     
     return writeClaudeConfig(existingConfig);
   } catch (error) {

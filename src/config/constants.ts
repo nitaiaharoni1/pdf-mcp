@@ -4,103 +4,72 @@
 
 import { MCPServerConfig } from '../types/mcp';
 
-// Query execution limits
-export const QUERY_LIMITS = {
-  MAX_ROWS: 1000,
-  CONNECTION_TIMEOUT: 30000, // 30 seconds
-  IDLE_TIMEOUT: 10000, // 10 seconds
-  MAX_CONNECTIONS: 10,
-  QUERY_TIMEOUT: 60000, // 60 seconds
+// PDF operation limits
+export const PDF_LIMITS = {
+  MAX_FILE_SIZE: 100 * 1024 * 1024, // 100 MB
+  MAX_PAGES: 10000,
+  MAX_SESSION_SIZE: 500 * 1024 * 1024, // 500 MB total in memory
+  SESSION_TIMEOUT: 3600000, // 1 hour in milliseconds
 } as const;
 
 // Server configuration
 export const SERVER_CONFIG: MCPServerConfig = {
-  name: 'database-mcp',
+  name: 'pdf-mcp',
   version: '1.0.0',
 } as const;
 
-// Supported database types
-export const SUPPORTED_DATABASE_TYPES = [
-  'postgresql',
-  'mysql',
-  'sqlite',
-  'snowflake',
+// Supported PDF features
+export const SUPPORTED_FEATURES = [
+  'forms',
+  'signatures',
+  'encryption',
+  'annotations',
+  'watermarks',
+  'merge',
+  'split',
+  'extract',
 ] as const;
 
-// Cloud provider domains for SSL configuration
-export const CLOUD_PROVIDERS = [
-  'digitalocean.com',
-  'ondigitalocean.com',
-  'amazonaws.com',
-  'rds.amazonaws.com',
-  'googleapis.com',
-  'azure.com',
-  'heroku.com',
-] as const;
-
-// Dangerous SQL keywords to block (destructive operations only)
-export const DANGEROUS_KEYWORDS = [
-  'drop',
-  'delete',
-  'truncate',
-  'grant',
-  'revoke',
-] as const;
-
-// Allowed write operations (non-destructive)
-export const ALLOWED_WRITE_KEYWORDS = [
-  'insert',
-  'update',
-  'alter',
-  'create',
-] as const;
+// Temporary directory for PDF operations
+export const TEMP_DIR = process.env.TEMP_DIR || '/tmp/pdf-mcp';
 
 // Maximum search results
 export const MAX_SEARCH_RESULTS = 50;
 
-// Default schema name
-export const DEFAULT_SCHEMA = 'public';
-
-// File extensions for SQLite detection
-export const SQLITE_EXTENSIONS = ['.db', '.sqlite', '.sqlite3'] as const;
-
-// Tool categories for database operations
+// Tool categories for PDF operations
 export const TOOL_CATEGORIES = {
-  QUERY: 'Query Execution',
-  SCHEMA: 'Schema Introspection',
-  ANALYSIS: 'Data Analysis',
-  DISCOVERY: 'Discovery',
-  INFO: 'Database Information',
+  DOCUMENT: 'Document Operations',
+  FORMS: 'Form Operations',
+  EDIT: 'Editing Operations',
+  PAGES: 'Page Operations',
+  SIGNATURES: 'Signature Operations',
+  SECURITY: 'Security Operations',
+  EXPORT: 'Export Operations',
 } as const;
 
-// Database connection string patterns
-export const CONNECTION_PATTERNS = {
-  postgresql: /^postgresql:\/\/|^postgres:\/\//,
-  mysql: /^mysql:\/\/|^mysql2:\/\//,
-  sqlite: /^sqlite:\/\/|\.db$|\.sqlite$|\.sqlite3$/,
-  snowflake: /^snowflake:\/\/|\.snowflakecomputing\.com/,
+// Default PDF settings
+export const DEFAULT_PDF_SETTINGS = {
+  pageSize: 'A4',
+  orientation: 'portrait',
+  fontSize: 12,
+  fontFamily: 'Helvetica',
+  color: '#000000',
 } as const;
 
-// Default connection options
-export const DEFAULT_CONNECTION_OPTIONS = {
-  postgresql: {
-    ssl: false,
-    connectionTimeoutMillis: 30000,
-    idleTimeoutMillis: 10000,
-    max: 10,
-  },
-  mysql: {
-    ssl: false,
-    connectTimeout: 30000,
-    acquireTimeout: 30000,
-    timeout: 60000,
-  },
-  sqlite: {
-    timeout: 30000,
-  },
-  snowflake: {
-    timeout: 60000,
-    clientSessionKeepAlive: true,
-    clientSessionKeepAliveHeartbeatFrequency: 3600,
-  },
+// Supported image formats
+export const SUPPORTED_IMAGE_FORMATS = [
+  'png',
+  'jpg',
+  'jpeg',
+  'gif',
+  'webp',
+] as const;
+
+// PDF MIME type
+export const PDF_MIME_TYPE = 'application/pdf';
+
+// File validation patterns
+export const FILE_PATTERNS = {
+  pdf: /\.pdf$/i,
+  image: /\.(png|jpg|jpeg|gif|webp)$/i,
 } as const;

@@ -1,26 +1,25 @@
 /**
- * MCP Tools Registry - combines all tool modules
+ * MCP Tools Registry - combines all PDF tool modules
  */
 
-import { isDatabaseConnected } from '../database';
-import { queryTools } from './query';
-import { schemaTools } from './schema';
-import { analysisTools } from './analysis';
-import { discoveryTools } from './discovery';
-import { postgresCatalogTools } from './postgres-catalog';
-import { postgresAdvancedTools } from './postgres-advanced';
-import { csvExportTools } from './csv-export';
+import { documentTools } from './document';
+import { formTools } from './forms';
+import { editTools } from './edit';
+import { pageTools } from './pages';
+import { signatureTools } from './signatures';
+import { securityTools } from './security';
+import { exportTools } from './export';
 import { MCPToolDefinition, MCPResult } from '../types/mcp';
 
-// Combine all tools
+// Combine all PDF tools
 const allTools: MCPToolDefinition[] = [
-  ...queryTools,
-  ...schemaTools,
-  ...analysisTools,
-  ...discoveryTools,
-  ...postgresCatalogTools,
-  ...postgresAdvancedTools,
-  ...csvExportTools,
+  ...documentTools,
+  ...formTools,
+  ...editTools,
+  ...pageTools,
+  ...signatureTools,
+  ...securityTools,
+  ...exportTools,
 ];
 
 /**
@@ -42,18 +41,6 @@ export const getToolDefinitions = () => {
  */
 export const handleToolCall = async (request: any) => {
   const { name, arguments: args } = request.params;
-
-  if (!isDatabaseConnected()) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: 'Error: Database connection not established. Please check your configuration.',
-        },
-      ],
-      isError: true,
-    };
-  }
 
   try {
     // Find the tool handler

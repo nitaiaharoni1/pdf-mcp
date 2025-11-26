@@ -1,103 +1,95 @@
-# Database MCP Server
+# PDF MCP Server
 
-[![GitHub stars](https://img.shields.io/github/stars/nitaiaharoni1/database-mcp?style=social)](https://github.com/nitaiaharoni1/database-mcp/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/nitaiaharoni1/database-mcp?style=social)](https://github.com/nitaiaharoni1/database-mcp/network/members)
-[![npm version](https://img.shields.io/npm/v/database-mcp)](https://www.npmjs.com/package/database-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/database-mcp)](https://www.npmjs.com/package/database-mcp)
+[![GitHub stars](https://img.shields.io/github/stars/nitaiaharoni1/pdf-mcp?style=social)](https://github.com/nitaiaharoni1/pdf-mcp/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/nitaiaharoni1/pdf-mcp?style=social)](https://github.com/nitaiaharoni1/pdf-mcp/network/members)
+[![npm version](https://img.shields.io/npm/v/pdf-mcp)](https://www.npmjs.com/package/pdf-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/pdf-mcp)](https://www.npmjs.com/package/pdf-mcp)
 
-A Model Context Protocol (MCP) server that provides AI assistants with direct access to multiple database types. This server enables natural language interactions with PostgreSQL, MySQL, SQLite, and Snowflake databases through comprehensive introspection and analysis tools.
+A Model Context Protocol (MCP) server that provides AI assistants with comprehensive PDF manipulation capabilities. This server enables natural language interactions with PDF documents through powerful editing, form filling, page manipulation, and security tools.
 
 ## 🚀 Quick Install
 
 ### NPX (Recommended - No Installation Required)
 ```bash
 # Run directly with npx (no installation needed)
-npx database-mcp init "postgresql://user:pass@host:port/db"
-npx database-mcp status
+npx pdf-mcp init
+npx pdf-mcp status
 ```
 
 ### Global Installation
 ```bash
 # Install globally for repeated use
-npm install -g database-mcp
-database-mcp init "postgresql://user:pass@host:port/db"
-database-mcp status
+npm install -g pdf-mcp
+pdf-mcp init
+pdf-mcp status
 ```
 
 Restart Claude Desktop after setup.
 
-**✨ New:** Use with NPX - no installation required! Just run `npx database-mcp` directly.
-
-**New in v1.2.4:** Use the simple `database-mcp init` command for streamlined setup!
-
-**Added in v1.2.4:** 
-- ✨ **`database-mcp status`** - Check your current database configuration
-- ✨ **`database-mcp update`** - Update your database connection easily  
-- ⚠️ **Deprecated** `--setup` and `--configure` (still work but show warnings)
-
-**Prefer manual configuration?** Use `database-mcp --find-config` to locate your Claude Desktop config file and get setup instructions.
+**✨ New:** Use with NPX - no installation required! Just run `npx pdf-mcp` directly.
 
 ## ✨ Features
 
-### 🗄️ **Multi-Database Support**
-- **PostgreSQL** - Full support for cloud providers (AWS RDS, Google Cloud SQL, DigitalOcean, Azure)
-- **MySQL** - Complete MySQL 5.7+ and 8.0+ compatibility  
-- **SQLite** - Local and embedded database support
-- **Snowflake** - Cloud data warehouse with advanced analytics capabilities
+### 📄 **Document Operations**
+- **Open PDFs** - Load and read PDF files with session management
+- **Create PDFs** - Generate new blank PDF documents
+- **Save PDFs** - Save modified PDFs to file system
+- **Get Info** - Retrieve metadata, page count, size, encryption status
 
-### 🔐 **Secure Connections**
-- **Smart SSL/TLS** - Automatic SSL detection for cloud databases
-- **Environment-aware** - Different security modes for development/production
-- **Certificate handling** - Built-in support for cloud provider certificates
+### 📝 **Form Operations**
+- **List Form Fields** - Discover all form fields with types and values
+- **Fill Forms** - Populate text fields, checkboxes, radio buttons, dropdowns
+- **Get Form Values** - Export all form data
+- **Flatten Forms** - Make form fields non-editable
 
-### 📊 **Comprehensive Database Introspection**
-- **Schema exploration** - List databases, tables, views, and schemas
-- **Structure analysis** - Detailed table descriptions, column info, data types
-- **Relationship mapping** - Foreign key relationships and constraints
-- **Index information** - Primary keys, indexes, and performance insights
-- **Function discovery** - Stored procedures and database functions
+### ✏️ **Editing Operations**
+- **Add Text** - Insert text at specific coordinates with styling
+- **Add Images** - Embed images into PDF pages
+- **Add Annotations** - Create comments, highlights, and notes
+- **Add Watermarks** - Apply text or image watermarks to all pages
+- **Modify Metadata** - Update title, author, subject, keywords
 
-### 🔍 **Advanced Query Capabilities**
-- **Safe execution** - Read-only operations to prevent data modification
-- **Query planning** - EXPLAIN query execution plans and optimization
-- **Result formatting** - Structured output with metadata
-- **Error handling** - Graceful error management and helpful messages
+### 📑 **Page Operations**
+- **List Pages** - Get page dimensions and information
+- **Merge PDFs** - Combine multiple PDF documents
+- **Split PDFs** - Split PDF into separate files (one per page)
+- **Rotate Pages** - Rotate specific pages
+- **Delete Pages** - Remove pages from PDF
+- **Extract Pages** - Extract pages to new PDF file
 
-### 📈 **Database Analytics**
-- **Table statistics** - Row counts, size information, and storage details
-- **Column analysis** - Data distribution, null values, and unique counts
-- **Performance insights** - Query performance and optimization suggestions
-- **Database health** - Connection status and system information
+### ✍️ **Signature Operations**
+- **Visual Signatures** - Add image-based signatures
+- **Signature Fields** - Create signature fields in forms
+- **Digital Signatures** - Apply digital signatures with certificates (requires implementation)
+- **Verify Signatures** - Check existing digital signatures
 
-### 🔎 **Smart Discovery**
-- **Pattern search** - Find tables and columns by name patterns
-- **Content search** - Search across table and column names
-- **Relationship discovery** - Automatic foreign key relationship detection
-- **Schema navigation** - Browse complex database structures easily
+### 🔒 **Security Operations**
+- **Encrypt PDFs** - Add password protection (limited support)
+- **Set Permissions** - Control printing, copying, editing permissions
+- **Get Security Info** - Check encryption and permission status
 
-### ⚡ **Developer Experience**
-- **Easy setup** - Automatic configuration for Claude Desktop
-- **Comprehensive testing** - 100% unit test coverage with Jest
-- **TypeScript** - Full type safety and excellent IDE support
-- **CLI tools** - Command-line utilities for configuration and testing
+### 📤 **Export Operations**
+- **Extract Text** - Extract all text content (requires additional implementation)
+- **Extract Images** - Extract embedded images (requires additional implementation)
+- **Export Form Data** - Export form data to JSON or CSV
+- **Compress PDFs** - Optimize PDF file size
 
 ## 🛠️ Installation
 
 ### Prerequisites
 - Node.js (v16 or higher)
 - Claude Desktop or any MCP-compatible AI client
-- Database access (PostgreSQL, MySQL, or SQLite)
 
 ### Quick Setup (NPX - Recommended)
 
 1. **Run directly with NPX (no installation needed):**
    ```bash
-   npx database-mcp init "your-database-connection-string"
+   npx pdf-mcp init
    ```
 
 2. **Check status:**
    ```bash
-   npx database-mcp status
+   npx pdf-mcp status
    ```
 
 3. **Restart Claude Desktop** and you're ready!
@@ -106,218 +98,171 @@ Restart Claude Desktop after setup.
 
 **Install globally:**
 ```bash
-npm install -g database-mcp
-database-mcp init "your-database-connection-string"
+npm install -g pdf-mcp
+pdf-mcp init
 ```
 
 **Use from source:**
 ```bash
-git clone https://github.com/nitaiaharoni1/database-mcp.git
-cd database-mcp
+git clone https://github.com/nitaiaharoni1/pdf-mcp.git
+cd pdf-mcp
 npm install
 npm run build
-npm run configure
-```
-
-**Manual configuration:** Use `npx database-mcp --find-config` to locate your Claude Desktop config file and add the server manually.
-
-## 🔗 Connection String Examples
-
-### PostgreSQL
-```bash
-# Cloud providers (SSL automatically enabled)
-postgresql://user:pass@host.amazonaws.com:5432/db
-postgresql://user:pass@host.ondigitalocean.com:25060/db?sslmode=require
-postgresql://user:pass@host.database.windows.net:5432/db
-
-# Local PostgreSQL (SSL disabled)
-postgresql://user:pass@localhost:5432/database
-```
-
-### MySQL
-```bash
-# Cloud MySQL
-mysql://user:pass@host.amazonaws.com:3306/database
-
-# Local MySQL
-mysql://user:pass@localhost:3306/database
-```
-
-### Snowflake
-```bash
-# Snowflake cloud data warehouse
-snowflake://username:password@account.snowflakecomputing.com/database/schema?warehouse=COMPUTE_WH&role=ACCOUNTADMIN
-
-# With specific region
-snowflake://user:pass@account.us-east-1.snowflakecomputing.com/MYDB/PUBLIC?warehouse=ANALYTICS_WH&role=ANALYST
-
-# Minimal configuration (uses defaults)
-snowflake://user:pass@account/database
-```
-
-### SQLite
-```bash
-# Absolute path
-/absolute/path/to/database.sqlite
-
-# Relative path
-./relative/path/to/database.db
-
-# Memory database (for testing)
-:memory:
+npm start
 ```
 
 ## 🎯 Available Tools
 
-The Database MCP server provides 13 powerful tools for database interaction:
+The PDF MCP server provides 30+ powerful tools for PDF manipulation:
 
-### Query Tools
-- **`query_database`** - Execute SELECT queries with formatted results
-- **`explain_query`** - Analyze query execution plans and performance
+### Document Tools
+- **`open_pdf`** - Open and read PDF file information
+- **`create_pdf`** - Create new blank PDF or from template
+- **`save_pdf`** - Save PDF to file system
+- **`close_pdf`** - Close PDF and cleanup resources
+- **`get_pdf_info`** - Get metadata, page count, size, encryption status
 
-### Schema Tools  
-- **`list_schemas`** - List all available schemas/databases
-- **`list_tables`** - List tables and views with details
-- **`describe_table`** - Get detailed table structure and column information
-- **`list_indexes`** - List all indexes and their properties
-- **`get_foreign_keys`** - Discover foreign key relationships
-- **`list_functions`** - List stored procedures and functions
+### Form Tools
+- **`list_form_fields`** - List all form fields with types and values
+- **`fill_form_field`** - Fill specific form field (text, checkbox, radio, dropdown)
+- **`get_form_values`** - Get all current form values
+- **`flatten_form`** - Flatten form to make fields non-editable
 
-### Analysis Tools
-- **`get_table_stats`** - Get table statistics (row counts, sizes)
-- **`get_database_info`** - Get database version and configuration
-- **`analyze_column`** - Analyze column data distribution and statistics
+### Editing Tools
+- **`add_text`** - Add text to PDF at coordinates with styling
+- **`add_image`** - Insert image into PDF
+- **`add_annotation`** - Add comments, highlights, notes
+- **`add_watermark`** - Add text or image watermark
+- **`modify_metadata`** - Update title, author, subject, keywords
 
-### Discovery Tools
-- **`search_tables`** - Search for tables and columns by name patterns
+### Page Tools
+- **`get_pages`** - List all pages with dimensions
+- **`merge_pdfs`** - Combine multiple PDFs
+- **`split_pdf`** - Split PDF into separate files
+- **`rotate_page`** - Rotate specific pages
+- **`delete_pages`** - Remove pages from PDF
+- **`extract_pages`** - Extract pages to new PDF
 
-### Administrative Tools
-- **`get_connection_info`** - Check connection status and database details
+### Signature Tools
+- **`add_visual_signature`** - Add image-based signature
+- **`create_signature_field`** - Create signature field in form
+- **`sign_pdf_digital`** - Apply digital signature with certificate
+- **`verify_signature`** - Verify existing digital signatures
+
+### Security Tools
+- **`encrypt_pdf`** - Add password protection and permissions
+- **`decrypt_pdf`** - Remove password protection
+- **`set_permissions`** - Set printing, copying, editing permissions
+- **`get_security_info`** - Check encryption and permissions
+
+### Export Tools
+- **`extract_text`** - Extract all text content
+- **`extract_images`** - Extract embedded images
+- **`export_form_data`** - Export form data to JSON/CSV
+- **`compress_pdf`** - Optimize PDF file size
 
 ## 🖥️ CLI Commands
 
-The database-mcp package provides several command-line tools for easy configuration:
+The pdf-mcp package provides several command-line tools:
 
 ### Setup Commands
-- **`database-mcp init [connection_string]`** - Interactive setup for Claude Desktop
+- **`pdf-mcp init [directory]`** - Initialize PDF working directory
   ```bash
-  database-mcp init "postgresql://user:pass@host:port/db"
-  database-mcp init  # Uses DATABASE_URL environment variable
+  pdf-mcp init ~/my-pdfs
+  pdf-mcp init  # Uses default: ~/pdf-mcp
   ```
 
-### Management Commands  
-- **`database-mcp status`** - Show current database configuration and connection status
+### Management Commands
+- **`pdf-mcp status`** - Show current configuration and active sessions
   ```bash
-  database-mcp status
+  pdf-mcp status
   ```
 
-- **`database-mcp update <connection_string>`** - Update database connection string
+### Testing Commands
+- **`pdf-mcp test [pdf_path]`** - Test PDF operations with a sample PDF
   ```bash
-  database-mcp update "mysql://user:pass@newhost:3306/db"
+  pdf-mcp test /path/to/sample.pdf
   ```
 
 ### Information Commands
-- **`database-mcp --help/-h`** - Show help information
-- **`database-mcp --version/-v`** - Show version information
-- **`database-mcp --find-config`** - Show Claude Desktop config file location
-
-### Deprecated Commands ⚠️
-- **`database-mcp --setup`** - Use `database-mcp init` instead
-- **`database-mcp --configure`** - Use `database-mcp init` instead
-
-These deprecated commands still work but will show warning messages encouraging use of the new commands.
+- **`pdf-mcp --help/-h`** - Show help information
+- **`pdf-mcp --version/-v`** - Show version information
 
 ## 💡 Usage Examples
 
-### Basic Database Exploration
+### Basic PDF Operations
 ```
-"What tables are in my database?"
-"Show me the structure of the users table"
-"What are the foreign key relationships in my database?"
-```
-
-### Data Analysis
-```
-"How many records are in each table?"
-"Show me the column statistics for the orders table"
-"What's the distribution of values in the status column?"
+"Open the PDF at /path/to/document.pdf"
+"Create a new PDF document"
+"Save the PDF to /path/to/output.pdf"
+"Get information about the current PDF"
 ```
 
-### Query Assistance
+### Form Operations
 ```
-"Find all customers who placed orders in the last 30 days"
-"Show me the execution plan for this query: SELECT * FROM users WHERE email = ?"
-"What indexes exist on the products table?"
-```
-
-### Schema Discovery
-```
-"Find all tables related to user management"
-"What columns contain the word 'email'?"
-"Show me all tables that reference the users table"
+"List all form fields in this PDF"
+"Fill the 'name' field with 'John Doe'"
+"Get all form values"
+"Flatten the form to make it non-editable"
 ```
 
-### CLI Management Examples
-```bash
-# Initial setup
-database-mcp init "postgresql://user:pass@host:port/db"
+### Editing Operations
+```
+"Add text 'DRAFT' at coordinates 100, 100 on page 1"
+"Add an image from /path/to/image.png to page 1"
+"Add a watermark 'CONFIDENTIAL' to all pages"
+"Update the PDF title to 'My Document'"
+```
 
-# Check current configuration
-database-mcp status
+### Page Operations
+```
+"List all pages with their dimensions"
+"Merge /path/to/file1.pdf and /path/to/file2.pdf"
+"Split this PDF into separate files"
+"Rotate page 2 by 90 degrees"
+"Delete pages 3 and 4"
+"Extract pages 1-5 to a new PDF"
+```
 
-# Update to a different database
-database-mcp update "mysql://user:pass@newhost:3306/newdb"
+### Signature Operations
+```
+"Add a visual signature from /path/to/signature.png to page 1"
+"Create a signature field named 'signature' on page 1"
+```
 
-# Find config file location
-database-mcp --find-config
+### Export Operations
+```
+"Export form data to /path/to/output.json as JSON"
+"Export form data to /path/to/output.csv as CSV"
+"Compress this PDF and save to /path/to/compressed.pdf"
 ```
 
 ## 🔧 Configuration
 
 ### Environment Variables
 
-- **`DATABASE_URL`** - Your database connection string (required)
-- **`NODE_TLS_REJECT_UNAUTHORIZED`** - Set to '0' to disable SSL verification for development (not recommended for production)
+- **`PDF_WORKING_DIR`** - Working directory for PDF operations (default: `~/pdf-mcp`)
+- **`TEMP_DIR`** - Temporary directory for PDF operations (default: `/tmp/pdf-mcp`)
 
-### Database-Specific Options
+### File Paths
 
-#### PostgreSQL SSL Modes
-- **`require`** - Always use SSL (recommended for production)
-- **`prefer`** - Use SSL if available, fall back to non-SSL
-- **`disable`** - Never use SSL (local development only)
+All file paths must be **absolute paths**. Relative paths are not supported for security reasons.
 
-#### Example with SSL options:
-```bash
-export DATABASE_URL="postgresql://user:pass@host:5432/db?sslmode=require"
-```
+### Session Management
+
+PDF documents are managed through sessions. Each opened or created PDF gets a unique session ID that is used for subsequent operations. Sessions are automatically cleaned up after 1 hour of inactivity.
 
 ## 🧪 Testing
 
-The Database MCP server includes comprehensive testing:
+The PDF MCP server includes testing capabilities:
 
 ```bash
-# Run all tests
+# Test PDF operations
+pdf-mcp test /path/to/sample.pdf
+
+# Run unit tests (if available)
 npm test
-
-# Run only unit tests (recommended for CI)
-npm run test:unit
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run tests in watch mode (development)
-npm run test:watch
-
-# Test CLI functionality
-npm run test:cli
 ```
-
-**Test Coverage:**
-- ✅ **72/72 Unit Tests** passing (100% success rate)
-- ✅ **CLI Tools** - Complete command-line interface testing
-- ✅ **Database Factory** - Multi-database detection and validation
-- ✅ **Query Builder** - Database-agnostic query utilities
-- ✅ **Tools** - All 13 MCP tools with schema validation
 
 ## 🏗️ Development
 
@@ -325,145 +270,58 @@ npm run test:cli
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/nitaiaharoni1/database-mcp.git
-   cd database-mcp
+   git clone https://github.com/nitaiaharoni1/pdf-mcp.git
+   cd pdf-mcp
    ```
 
 2. **Install dependencies:**
    ```bash
    npm install
    ```
-   
-   This will automatically set up pre-commit hooks via Husky to ensure code quality.
 
-3. **Configure your database connection:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
-   ```
-
-4. **Run tests:**
-   ```bash
-   npm test
-   ```
-
-5. **Build the project:**
+3. **Build the project:**
    ```bash
    npm run build
    ```
 
-6. **Test locally:**
+4. **Test locally:**
    ```bash
    npm run dev
    ```
 
-### Pre-commit Hooks
+## 📋 Technical Details
 
-This project uses **Husky** to enforce code quality standards:
+### Primary Library
+- **pdf-lib** - Comprehensive PDF operations (forms, editing, page manipulation)
 
-#### 🔒 **Pre-commit Checks** (Run on every commit)
-- ✅ **TypeScript compilation** - Ensures code compiles without errors
-- ✅ **Unit tests** - Validates all unit tests pass
-- ✅ **Package validation** - Verifies npm package integrity
+### Storage
+- Local file system only with absolute path support
 
-#### 🚀 **Pre-push Checks** (Run before pushing to remote)
-- ✅ **Clean build** - Full clean build from scratch
-- ✅ **Unit tests with coverage** - Comprehensive test coverage analysis
-- ✅ **Package verification** - Ensures package can be published
+### Session Management
+- Maintains open PDF documents in memory with unique IDs
+- Automatic cleanup of inactive sessions
 
-These hooks prevent broken code from being committed or pushed, maintaining high code quality standards for all contributors.
+### Error Handling
+- Graceful handling of corrupted PDFs
+- Permission error handling
+- Unsupported feature detection
 
-## 🔄 CI/CD Pipeline
-
-This project uses **GitHub Actions** for automated continuous integration and deployment:
-
-### 📋 **Workflows**
-
-#### 🧪 **CI Workflow** (`.github/workflows/ci.yml`)
-**Triggers:** Push to `main`/`develop`, Pull Requests
-- ✅ **Multi-Node Testing** - Tests on Node.js 18.x and 20.x
-- ✅ **Build Verification** - Ensures TypeScript compilation succeeds
-- ✅ **Unit Test Execution** - Runs comprehensive unit test suite
-- ✅ **Coverage Reporting** - Uploads test coverage to Codecov
-- ✅ **Security Audit** - Checks for vulnerabilities in dependencies
-- ✅ **Package Validation** - Verifies npm package can be built
-
-#### 🚀 **Release Workflow** (`.github/workflows/release.yml`)
-**Triggers:** GitHub Releases, Version Tags (`v*`)
-- ✅ **Automated Testing** - Full test suite execution
-- ✅ **Production Build** - Clean build for distribution
-- ✅ **NPM Publishing** - Automatic publish to npm registry
-- ✅ **Release Notes** - Auto-generated GitHub release notes
-
-#### 🔗 **Integration Tests** (`.github/workflows/integration.yml`)
-**Triggers:** Manual dispatch, Scheduled (daily)
-- ✅ **Local Database Testing** - Tests with containerized PostgreSQL/MySQL
-- ✅ **External Database Support** - Tests with provided database URLs
-- ✅ **Multi-Database Matrix** - Tests PostgreSQL, MySQL, and SQLite
-- ✅ **SSL Configuration** - Validates cloud database connectivity
-
-#### 🤖 **Dependabot Auto-merge** (`.github/workflows/dependabot-auto-merge.yml`)
-**Triggers:** Dependabot Pull Requests
-- ✅ **Automated Dependency Updates** - Weekly dependency updates
-- ✅ **Auto-merge** - Automatically merges patch/minor updates after CI passes
-- ✅ **Security Updates** - Prioritizes security vulnerability fixes
-
-### 🔧 **Setup Instructions**
-
-#### **For Repository Maintainers:**
-
-1. **NPM Token Setup:**
-   ```bash
-   # Create npm access token at https://www.npmjs.com/settings/tokens
-   # Add to GitHub Secrets as NPM_TOKEN
-   ```
-
-2. **Optional Database Testing:**
-   ```bash
-   # Add to GitHub Secrets for integration testing
-   TEST_DATABASE_URL="postgresql://user:pass@host:port/db"
-   ```
-
-3. **Dependabot Configuration:**
-   - Automatically configured in `.github/dependabot.yml`
-   - Updates dependencies weekly on Mondays
-   - Auto-assigns to `nitaiaharoni1`
-
-#### **Manual Workflow Triggers:**
-
-- **Integration Tests:** Go to Actions → Integration Tests → Run workflow
-- **Manual Release:** Create a new release or push a version tag
-
-### 📊 **Status Badges**
-
-Add these badges to monitor build status:
-
-```markdown
-![CI](https://github.com/nitaiaharoni1/database-mcp/workflows/CI/badge.svg)
-![Release](https://github.com/nitaiaharoni1/database-mcp/workflows/Release/badge.svg)
-[![npm version](https://badge.fury.io/js/database-mcp.svg)](https://badge.fury.io/js/database-mcp)
-[![codecov](https://codecov.io/gh/nitaiaharoni1/database-mcp/branch/main/graph/badge.svg)](https://codecov.io/gh/nitaiaharoni1/database-mcp)
-```
+### Limitations
+- **Digital Signatures**: Requires additional implementation with node-forge
+- **Text Extraction**: Requires pdfjs-dist or similar library
+- **Image Extraction**: Requires PDF parsing library
+- **Encryption**: pdf-lib has limited encryption support
 
 ## 📄 License
 
-**Non-Commercial License** - All rights reserved to Nitai Aharoni.
-
-This software is available for:
-- ✅ Personal use (non-commercial)
-- ✅ Educational and research purposes  
-- ✅ Evaluation and testing
-
-**Commercial use is prohibited** without explicit permission. For commercial licensing inquiries, please contact: nitaiaharoni1@gmail.com
-
-See the [LICENSE](LICENSE) file for complete terms and conditions.
+**MIT License** - See the [LICENSE](LICENSE) file for complete terms and conditions.
 
 ## 🙋‍♂️ Support
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/nitaiaharoni1/database-mcp/issues)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/nitaiaharoni1/pdf-mcp/issues)
 - **Documentation**: This README and inline code documentation
 - **Community**: Contributions and discussions welcome!
 
 ---
 
-**Made with ❤️ for the AI and database community**
+**Made with ❤️ for the AI and PDF processing community**

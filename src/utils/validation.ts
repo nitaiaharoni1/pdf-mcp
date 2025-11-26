@@ -1,45 +1,94 @@
 /**
- * Validation Utilities
+ * PDF Validation Utilities
  */
 
-import { DANGEROUS_KEYWORDS } from '../config/constants';
+import { PDF_LIMITS } from '../config/constants';
 
 /**
- * Validate SQL query for security
+ * Validate PDF file path format
  */
-export const validateQuery = (query: string): void => {
-  if (!query || typeof query !== 'string') {
-    throw new Error('Query must be a non-empty string');
+export const validatePDFPath = (filePath: string): void => {
+  if (!filePath || typeof filePath !== 'string') {
+    throw new Error('File path must be a non-empty string');
   }
 
-  const trimmedQuery = query.trim().toLowerCase();
+  if (!filePath.endsWith('.pdf')) {
+    throw new Error('File must have .pdf extension');
+  }
+};
 
-  // Check for destructive keywords (only block truly dangerous operations)
-  const hasDestructiveKeywords = DANGEROUS_KEYWORDS.some((keyword: string) =>
-    trimmedQuery.includes(keyword.toLowerCase()),
-  );
+/**
+ * Validate session ID format
+ */
+export const validateSessionId = (sessionId: string): void => {
+  if (!sessionId || typeof sessionId !== 'string') {
+    throw new Error('Session ID must be a non-empty string');
+  }
 
-  if (hasDestructiveKeywords) {
+  if (!sessionId.startsWith('pdf_')) {
+    throw new Error('Invalid session ID format');
+  }
+};
+
+/**
+ * Validate page number
+ */
+export const validatePageNumber = (pageNumber: number, maxPages: number): void => {
+  if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+    throw new Error('Page number must be a positive integer');
+  }
+
+  if (pageNumber > maxPages) {
+    throw new Error(`Page number ${pageNumber} exceeds maximum pages (${maxPages})`);
+  }
+};
+
+/**
+ * Validate file size
+ */
+export const validateFileSize = (size: number): void => {
+  if (size > PDF_LIMITS.MAX_FILE_SIZE) {
     throw new Error(
-      'Destructive operations (DROP, DELETE, TRUNCATE, GRANT, REVOKE) are not allowed for safety.',
+      `File size (${(size / 1024 / 1024).toFixed(2)} MB) exceeds maximum of ${PDF_LIMITS.MAX_FILE_SIZE / 1024 / 1024} MB`
     );
   }
 };
 
 /**
- * Validate SQL identifier (table name, column name, etc.)
+ * Validate coordinates
  */
-export const validateIdentifier = (name: string): void => {
-  if (!name || typeof name !== 'string') {
-    throw new Error('Identifier must be a non-empty string');
+export const validateCoordinates = (x: number, y: number): void => {
+  if (typeof x !== 'number' || typeof y !== 'number') {
+    throw new Error('Coordinates must be numbers');
   }
 
-  // Basic SQL identifier validation
-  if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name)) {
-    throw new Error('Invalid identifier format');
+  if (x < 0 || y < 0) {
+    throw new Error('Coordinates must be non-negative');
+  }
+};
+
+/**
+ * Validate dimensions
+ */
+export const validateDimensions = (width: number, height: number): void => {
+  if (typeof width !== 'number' || typeof height !== 'number') {
+    throw new Error('Dimensions must be numbers');
   }
 
-  if (name.length > 63) {
-    throw new Error('Identifier too long (max 63 characters)');
+  if (width <= 0 || height <= 0) {
+    throw new Error('Dimensions must be positive');
+  }
+};
+
+/**
+ * Validate color hex format
+ */
+export const validateColor = (color: string): void => {
+  if (!color || typeof color !== 'string') {
+    throw new Error('Color must be a non-empty string');
+  }
+
+  if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
+    throw new Error('Color must be in hex format (#RRGGBB)');
   }
 };

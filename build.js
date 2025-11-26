@@ -26,10 +26,10 @@ async function build() {
       external: [
         // Keep external dependencies as external
         '@modelcontextprotocol/sdk',
-        'pg',
-        'mysql2', 
-        'sqlite3',
-        'sqlite',
+        'pdf-lib',
+        'node-forge',
+        'sharp',
+        'csv-writer',
         'dotenv'
       ],
       define: {
@@ -82,7 +82,7 @@ async function build() {
       description: packageJson.description,
       main: 'server.js',
       bin: {
-        'database-mcp': 'server.js'
+        'pdf-mcp': 'server.js'
       },
       dependencies: packageJson.dependencies,
       engines: packageJson.engines

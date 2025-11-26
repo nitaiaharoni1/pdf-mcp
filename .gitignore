@@ -173,3 +173,7 @@ junit.xml
 *.swp
 *.swo
 *~
+
+# Test PDF files
+*.pdf
+!dist/**/*.pdf

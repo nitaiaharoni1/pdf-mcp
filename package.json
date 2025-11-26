@@ -1,5 +1,5 @@
 {
-  "name": "pdf-mcp",
+  "name": "mcp-pdf",
   "version": "1.0.0",
   "description": "A Model Context Protocol server for PDF manipulation and operations",
   "main": "dist/server.js",

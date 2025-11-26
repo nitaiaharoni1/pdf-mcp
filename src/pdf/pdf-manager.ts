@@ -141,7 +141,7 @@ export class PDFManager {
       title: document.getTitle() || undefined,
       author: document.getAuthor() || undefined,
       subject: document.getSubject() || undefined,
-      keywords: keywords ? keywords.split(',').map(k => k.trim()) : undefined,
+      keywords: keywords ? keywords.split(/\s+/).filter(k => k.length > 0) : undefined,
       creator: document.getCreator() || undefined,
       producer: document.getProducer() || undefined,
       creationDate: document.getCreationDate() || undefined,

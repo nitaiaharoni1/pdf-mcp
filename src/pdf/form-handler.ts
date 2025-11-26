@@ -123,6 +123,31 @@ export class FormHandler {
   }
 
   /**
+   * Fill multiple form fields at once
+   */
+  async fillFormFields(
+    sessionId: string,
+    fields: Record<string, string | boolean | string[]>
+  ): Promise<{ filled: string[]; errors: Array<{ field: string; error: string }> }> {
+    const filled: string[] = [];
+    const errors: Array<{ field: string; error: string }> = [];
+
+    for (const [fieldName, value] of Object.entries(fields)) {
+      try {
+        await this.fillFormField(sessionId, fieldName, value);
+        filled.push(fieldName);
+      } catch (error) {
+        errors.push({
+          field: fieldName,
+          error: (error as Error).message,
+        });
+      }
+    }
+
+    return { filled, errors };
+  }
+
+  /**
    * Get all form values
    */
   async getFormValues(sessionId: string): Promise<Record<string, any>> {

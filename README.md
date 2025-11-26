@@ -40,7 +40,8 @@ npm install -g mcp-pdf
 
 ### 📝 **Form Operations**
 - **List Form Fields** - Discover all form fields with types and values
-- **Fill Forms** - Populate text fields, checkboxes, radio buttons, dropdowns
+- **Fill Form Field** - Populate a single form field (text, checkbox, radio, dropdown)
+- **Fill Form Fields** - Fill multiple form fields at once with a single operation
 - **Get Form Values** - Export all form data
 - **Flatten Forms** - Make form fields non-editable
 
@@ -307,7 +308,8 @@ The PDF MCP server provides 30+ powerful tools for PDF manipulation:
 
 ### Form Tools
 - **`list_form_fields`** - List all form fields with types and values
-- **`fill_form_field`** - Fill specific form field (text, checkbox, radio, dropdown)
+- **`fill_form_field`** - Fill a specific form field (text, checkbox, radio, dropdown)
+- **`fill_form_fields`** - Fill multiple form fields at once (batch operation)
 - **`get_form_values`** - Get all current form values
 - **`flatten_form`** - Flatten form to make fields non-editable
 
@@ -385,6 +387,7 @@ The pdf-mcp package provides several command-line tools:
 ```
 "List all form fields in this PDF"
 "Fill the 'name' field with 'John Doe'"
+"Fill multiple form fields: name='John Doe', email='john@example.com', agree=true"
 "Get all form values"
 "Flatten the form to make it non-editable"
 ```

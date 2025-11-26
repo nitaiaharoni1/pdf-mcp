@@ -7,6 +7,7 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { PDFDocumentSession, PDFMetadata, PDFInfo, SecurityInfo } from '../types/pdf';
 import { PDF_LIMITS } from '../config/constants';
+import { FileManager } from '../utils/file-manager';
 
 export class PDFManager {
   private sessions: Map<string, PDFDocumentSession> = new Map();
@@ -35,16 +36,11 @@ export class PDFManager {
    * Load PDF from file
    */
   async loadFromFile(filePath: string): Promise<string> {
-    // Validate file exists
-    await fs.access(filePath);
+    // Validate file path (absolute path, exists, .pdf extension, size)
+    await FileManager.validatePDFPath(filePath);
 
     // Read file
     const fileData = await fs.readFile(filePath);
-    
-    // Validate file size
-    if (fileData.length > PDF_LIMITS.MAX_FILE_SIZE) {
-      throw new Error(`PDF file exceeds maximum size of ${PDF_LIMITS.MAX_FILE_SIZE / 1024 / 1024} MB`);
-    }
 
     // Load PDF
     const document = await PDFDocument.load(fileData);

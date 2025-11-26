@@ -105,6 +105,79 @@ export const formTools: MCPToolDefinition[] = [
     },
   },
   {
+    name: 'fill_form_fields',
+    description: 'Fill multiple form fields at once. Provide a JSON object with field names as keys and values as values. Values can be strings, booleans (for checkboxes), or arrays (for dropdowns).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        session_id: {
+          type: 'string',
+          description: 'PDF session ID',
+        },
+        fields: {
+          type: 'object',
+          description: 'Object mapping field names to values. Values can be strings, booleans, or arrays. Example: {"name": "John", "age": "30", "agree": true}',
+        },
+      },
+      required: ['session_id', 'fields'],
+    },
+    handler: async (args: { session_id: string; fields: Record<string, any> }): Promise<MCPResult> => {
+      try {
+        // Parse and normalize field values
+        const normalizedFields: Record<string, string | boolean | string[]> = {};
+        
+        for (const [fieldName, value] of Object.entries(args.fields)) {
+          if (typeof value === 'boolean') {
+            normalizedFields[fieldName] = value;
+          } else if (typeof value === 'string') {
+            // Try to parse boolean strings
+            if (value === 'true' || value === 'false') {
+              normalizedFields[fieldName] = value === 'true';
+            } else if (value.startsWith('[') && value.endsWith(']')) {
+              // Try to parse as array
+              try {
+                normalizedFields[fieldName] = JSON.parse(value);
+              } catch {
+                normalizedFields[fieldName] = value;
+              }
+            } else {
+              normalizedFields[fieldName] = value;
+            }
+          } else if (Array.isArray(value)) {
+            normalizedFields[fieldName] = value;
+          } else {
+            normalizedFields[fieldName] = String(value);
+          }
+        }
+
+        const result = await formHandler.fillFormFields(args.session_id, normalizedFields);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify({
+                message: `Filled ${result.filled.length} field(s) successfully`,
+                filled: result.filled,
+                errors: result.errors.length > 0 ? result.errors : undefined,
+              }, null, 2),
+            },
+          ],
+          isError: result.errors.length > 0 && result.filled.length === 0,
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error filling form fields: ${(error as Error).message}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+  },
+  {
     name: 'get_form_values',
     description: 'Get all current form values',
     inputSchema: {
